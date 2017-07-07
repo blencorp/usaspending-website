@@ -48,7 +48,7 @@ export default class AwardAmounts extends React.Component {
     }
 
     generateNarrative() {
-        const recipient = this.props.selectedAward.recipient_name.toLowerCase();
+        const recipient = this.props.selectedAward.recipient.recipient_name.toLowerCase();
 
         const ceiling = this.props.selectedAward.potential_total_value_of_award;
         const current = this.props.selectedAward.total_obligation;
