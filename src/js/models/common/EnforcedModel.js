@@ -8,6 +8,23 @@
 
 import { Record } from 'immutable';
 
+const remapKeys = (apiMapping, data) => {
+    const remapped = {};
+    Object.keys(data).forEach((key) => {
+        // check if the key should be remapped
+        if ({}.hasOwnProperty.call(apiMapping, key)) {
+            const modelKey = apiMapping[key];
+            remapped[modelKey] = data[key];
+        }
+        else {
+            // not specified in remapping, so use the provided key
+            remapped[key] = data[key];
+        }
+    });
+
+    return remapped;
+};
+
 const formatData = (schema = {}, data, formatFuncs = {}) => {
     const values = {};
     if (!data) {
@@ -39,13 +56,24 @@ const formatData = (schema = {}, data, formatFuncs = {}) => {
 };
 
 export default class EnforcedModel {
-    constructor(schema, data = {}, formatFuncs = {}) {
+    constructor(schema, data = {}, formatFuncs = {}, apiMapping = {}) {
+        // create a new Record model class using the provided schema and class name
         const ClassType = Record(schema, this.constructor.name);
+
         if (Object.keys(data).length > 0) {
-            const values = formatData(schema, data, formatFuncs);
+            // there is data to populate the model with
+            let inbound = data;
+            if (Object.keys(apiMapping).length > 0) {
+                // remap API keys to the model's internal properties as necessary (other keys will
+                // remain the same)
+                inbound = remapKeys(data);
+            }
+
+            const values = formatData(schema, inbound, formatFuncs);
             return new ClassType(values);
         }
 
+        // otherwise create an instance of the model using default values
         return new ClassType({});
     }
 }

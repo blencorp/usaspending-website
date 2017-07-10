@@ -65,9 +65,9 @@ export default class AgencyInfo extends React.Component {
 
     render() {
         const award = this.props.selectedAward;
-        const toptierAgency = `${this.state.agencyType}_agency_name`;
-        const subtierAgency = `${this.state.agencyType}_subtier_name`;
-        const officeAgency = `${this.state.agencyType}_office_name`;
+        const toptierAgency = award[`${this.state.agencyType}_agency`].toptier_agency.name;
+        const subtierAgency = award[`${this.state.agencyType}_agency`].subtier_agency.name;
+        const officeAgency = award[`${this.state.agencyType}_agency`].office.name;
         let office = "";
         let subtier = "";
         let toptier = "Not Available";
@@ -117,21 +117,21 @@ export default class AgencyInfo extends React.Component {
                 </div>
             </div>
         );
-        if (award[toptierAgency]) {
-            toptier = award[toptierAgency];
+        if (toptierAgency !== '') {
+            toptier = toptierAgency;
         }
-        if (award[subtierAgency]) {
+        if (subtierAgency !== '') {
             subtier = (
                 <InfoSnippet
                     label="Sub-Agency"
-                    value={award[subtierAgency]} />
+                    value={subtierAgency} />
             );
         }
-        if (award[officeAgency]) {
+        if (officeAgency !== '') {
             office = (
                 <InfoSnippet
                     label="Office"
-                    value={award[officeAgency]} />
+                    value={officeAgency} />
             );
         }
         return (

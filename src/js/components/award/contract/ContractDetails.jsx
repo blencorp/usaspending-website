@@ -75,8 +75,12 @@ export default class ContractDetails extends React.Component {
         // Location
         let popPlace = "";
         let cityState = null;
-        const city = award.pop_city;
-        const stateProvince = award.pop_state_province;
+        const city = award.place_of_performance.city_name;
+        let stateProvince = award.place_of_performance.state_code;
+        if (stateProvince === '' && award.place_of_performance.state_name !== '') {
+            stateProvince = award.place_of_performance.state_name;
+        }
+
         if (city && stateProvince) {
             cityState = `${city}, ${stateProvince}`;
         }
@@ -86,15 +90,19 @@ export default class ContractDetails extends React.Component {
         else if (stateProvince) {
             cityState = stateProvince;
         }
-        if (award.pop_country_code === 'USA') {
-            popPlace = `${cityState} ${award.pop_zip}`;
-            if (award.pop_state_code && award.pop_congressional_district) {
+        if (award.place_of_performance.location_country_code === 'USA') {
+            let zip = award.place_of_performance.zip5;
+            if (!zip && award.place_of_performance.zip4) {
+                zip = award.place_of_performance.zip4.slice(0, 5);
+            }
+            popPlace = `${cityState} ${zip}`;
+            if (award.place_of_performance.state_code && award.place_of_performance.congressional_code) {
                 popPlace +=
-            `\nCongressional District: ${award.pop_state_code}-${award.pop_congressional_district}`;
+            `\nCongressional District: ${award.place_of_performance.state_code}-${award.place_of_performance.congressional_code}`;
             }
         }
-        else if (award.pop_country_code !== 'USA') {
-            popPlace = `${award.pop_country}`;
+        else if (award.place_of_performance.location_country_code !== 'USA') {
+            popPlace = `${award.place_of_performance.country_name}`;
         }
         if (award.description) {
             description = award.description;

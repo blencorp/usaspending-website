@@ -5,7 +5,10 @@
 
 import EnforcedModel from 'models/common/EnforcedModel';
 
+import moment from 'moment';
+
 import * as MoneyFormatter from 'helpers/moneyFormatter';
+import * as SummaryPageHelper from 'helpers/summaryPageHelper';
 
 import RecipientModel from './RecipientModel';
 import AgencyModel from './AgencyModel';
@@ -15,6 +18,8 @@ import TransactionModel from './TransactionModel';
 
 const defaultValues = {
     id: 0,
+    award_id: '',
+    internal_general_type: 'unknown',
     type: '',
     type_description: '',
     category: '',
@@ -38,6 +43,9 @@ const defaultValues = {
 };
 
 const formatFuncs = {
+    date_signed: (raw) => moment(raw, 'YYYY-MM-DD').format('M/D/YYYY'),
+    period_of_performance_start_date: (raw) => moment(raw, 'YYYY-MM-DD').format('M/D/YYYY'),
+    period_of_performance_current_end_date: (raw) => moment(raw, 'YYYY-MM-DD').format('M/D/YYYY'),
     potential_total_value_of_award: (raw) => MoneyFormatter.formatMoney(raw),
     total_subaward_amount: (raw) => MoneyFormatter.formatMoney(raw),
     awarding_agency: (raw) => new AgencyModel(raw),
@@ -47,12 +55,42 @@ const formatFuncs = {
     latest_transaction: (raw) => new TransactionModel(raw)
 };
 
+const apiMapping = {
+    
+};
+
+const calculatedFields = (data) => {
+    const values = Object.assign({}, data);
+    // award_id is precalculated based on FAIN, PIID, or URI (in that order)
+    let awardId = '';
+    if (data.fain) {
+        awardId = data.fain;
+    }
+    else if (data.piid) {
+        awardId = data.piid;
+    }
+    else if (data.uri) {
+        awardId = data.uri;
+    }
+    values.award_id = awardId;
+
+    // internal general type indicates which award UI to display
+    if (data.type) {
+        values.internal_general_type = SummaryPageHelper.awardType(data.type);
+    }
+
+    return values;
+};
+
 export default class SingleAwardModel extends EnforcedModel {
     constructor(data) {
+        // prepare calculated fields
+        const values = calculatedFields(data);
+
         // create a Record instance with the prepared values
         // as an Immutable JS Record, the instance will be immutable and it will only have the
         // keys defined by default (but they are guaranteed to exist)
-        super(defaultValues, data, formatFuncs);
+        super(defaultValues, values, formatFuncs, apiMapping);
     }
 }
 

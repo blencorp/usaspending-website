@@ -106,8 +106,10 @@ export class AwardContainer extends React.Component {
             awardId: this.props.params.awardId
         });
 
+        // const oldAward = new AwardSummary(data);
+        // console.log(JSON.stringify(oldAward));
+
         const award = new SingleAwardModel(data);
-        console.log(award);
         // Add search results to Redux
         this.props.setSelectedAward(award);
     }

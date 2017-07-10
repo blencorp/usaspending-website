@@ -28,7 +28,10 @@ const defaultValues = {
     id: 0,
     toptier_flag: false,
     toptier_agency: new ToptierModel(),
-    subtier_agency: new SubtierModel()
+    subtier_agency: new SubtierModel(),
+    office: {
+        name: ''
+    }
 };
 
 const formatFuncs = {
