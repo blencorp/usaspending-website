@@ -74,13 +74,9 @@ export default class ContractDetails extends React.Component {
 
         // Location
         let popPlace = "";
-        let cityState = null;
-        const city = award.place_of_performance.city_name;
-        let stateProvince = award.place_of_performance.state_code;
-        if (stateProvince === '' && award.place_of_performance.state_name !== '') {
-            stateProvince = award.place_of_performance.state_name;
-        }
-
+        let cityState = '';
+        const city = award.pop_city;
+        const stateProvince = award.pop_state_province;
         if (city && stateProvince) {
             cityState = `${city}, ${stateProvince}`;
         }

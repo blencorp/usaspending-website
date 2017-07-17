@@ -21,17 +21,18 @@ export default class RecipientAddress extends React.Component {
         let country = null;
         let district = null;
 
-        const streetKeys = ['address_line1', 'address_line2', 'address_line3'];
         const street = [];
-        streetKeys.forEach((key) => {
+        const streetFields = ['recipient_address_line1', 'recipient_address_line2', 'recipient_address_line3'];
+        streetFields.forEach((key) => {
             const item = recipient[key];
-            if (item && item !== '') {
-                street.push((<span key={key}>
-                    {item}
-                </span>));
+            if (recipient[key] && recipient[key] !== '') {
+                const lineItem = (
+                    <span key={key}>{item}<br /></span>
+                );
+
+                street.push(lineItem);
             }
         });
-
         if (recipient.recipient_state_code && recipient.recipient_congressional_district) {
             district = (
                 <div className="item-value">
