@@ -4,7 +4,6 @@
  **/
 
 import React from 'react';
-import * as SummaryPageHelper from 'helpers/summaryPageHelper';
 
 import AwardAmounts from '../AwardAmounts';
 import FinancialAssistanceDetails from './FinancialAssistanceDetails';
@@ -21,7 +20,7 @@ export default class AwardFinancialAssistance extends React.Component {
                 <AwardAmounts
                     selectedAward={this.props.selectedAward}
                     showPotential={false}
-                    typeString={SummaryPageHelper.awardType(this.props.selectedAward.award_type)} />
+                    typeString={this.props.selectedAward.category} />
                 <FinancialAssistanceDetails
                     {...this.props}
                     selectedAward={this.props.selectedAward}

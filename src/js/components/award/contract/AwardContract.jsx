@@ -21,7 +21,7 @@ export default class AwardContract extends React.Component {
             <div className="award-contract-wrapper">
                 <AwardAmounts
                     selectedAward={this.props.selectedAward}
-                    typeString={SummaryPageHelper.awardType(this.props.selectedAward.award_type)} />
+                    typeString={this.props.selectedAward.category} />
                 <ContractDetails
                     selectedAward={this.props.selectedAward}
                     seeAdditional={this.props.seeAdditional}

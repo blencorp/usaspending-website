@@ -42,7 +42,7 @@ export default class SummaryBar extends React.Component {
         const awardEnd = moment(award.period_of_performance_current_end_date, 'MM-DD-YYYY');
         const current = moment();
         let progress = "";
-        const awardType = startCase(toLower(SummaryPageHelper.awardType(award.award_type)));
+        const awardType = startCase(award.category);
         let parentId = null;
 
         if (current.isSameOrBefore(awardStart, 'day')) {

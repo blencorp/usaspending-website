@@ -46,7 +46,7 @@ export default class AwardInfo extends React.Component {
     }
 
     render() {
-        const type = this.props.selectedAward.internal_general_type;
+        const type = this.props.selectedAward.category;
 
         let amountsDetailsSection = null;
 

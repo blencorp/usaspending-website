@@ -8,7 +8,6 @@ import EnforcedModel from 'models/common/EnforcedModel';
 import moment from 'moment';
 
 import * as MoneyFormatter from 'helpers/moneyFormatter';
-import * as SummaryPageHelper from 'helpers/summaryPageHelper';
 
 import RecipientModel from './RecipientModel';
 import AgencyModel from './AgencyModel';
@@ -19,10 +18,9 @@ import TransactionModel from './TransactionModel';
 const defaultValues = {
     id: 0,
     award_id: '',
-    internal_general_type: 'unknown',
+    category: 'unknown',
     type: '',
     type_description: '',
-    category: '',
     piid: '',
     fain: '',
     uri: '',
@@ -55,9 +53,7 @@ const formatFuncs = {
     latest_transaction: (raw) => new TransactionModel(raw)
 };
 
-const apiMapping = {
-    
-};
+const apiMapping = {};
 
 const calculatedFields = (data) => {
     const values = Object.assign({}, data);
@@ -74,15 +70,10 @@ const calculatedFields = (data) => {
     }
     values.award_id = awardId;
 
-    // internal general type indicates which award UI to display
-    if (data.type) {
-        values.internal_general_type = SummaryPageHelper.awardType(data.type);
-    }
-
     return values;
 };
 
-export default class SingleAwardModel extends EnforcedModel {
+export default class AwardModel extends EnforcedModel {
     constructor(data) {
         // prepare calculated fields
         const values = calculatedFields(data);

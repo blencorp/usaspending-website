@@ -12,9 +12,8 @@ import Award from 'components/award/Award';
 
 import * as SearchHelper from 'helpers/searchHelper';
 import * as awardActions from 'redux/actions/award/awardActions';
-import AwardSummary from 'models/results/award/AwardSummary';
 
-import SingleAwardModel from 'models/award/SingleAwardModel';
+import AwardModel from 'models/award/AwardModel';
 
 const propTypes = {
     setSelectedAward: React.PropTypes.func,
@@ -109,7 +108,7 @@ export class AwardContainer extends React.Component {
         // const oldAward = new AwardSummary(data);
         // console.log(JSON.stringify(oldAward));
 
-        const award = new SingleAwardModel(data);
+        const award = new AwardModel(data);
         // Add search results to Redux
         this.props.setSelectedAward(award);
     }

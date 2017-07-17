@@ -74,7 +74,7 @@ export default class DetailsSection extends React.Component {
     }
 
     currentSection() {
-        const type = this.props.award.selectedAward.internal_general_type;
+        const type = this.props.award.selectedAward.category;
         switch (this.props.activeTab) {
             case 'transaction':
                 if (type === 'contract') {
@@ -111,7 +111,7 @@ export default class DetailsSection extends React.Component {
     render() {
         const content = this.currentSection();
 
-        if (this.props.award.selectedAward.internal_general_type === 'contract') {
+        if (this.props.award.selectedAward.category === 'contract') {
             tabs.push({
                 label: 'Additional Details',
                 internal: 'additional',

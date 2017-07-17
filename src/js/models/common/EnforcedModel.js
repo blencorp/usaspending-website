@@ -40,6 +40,20 @@ const formatData = (schema = {}, data, formatFuncs = {}) => {
             continue;
         }
 
+        if (!data[modelProp]) {
+            // the property has a null or undefined value in the inbound API data,
+            // set the model value to null
+            values[modelProp] = null;
+
+            // however, if the property was expected to be another model, create an empty
+            // instance of that model
+            if (schema[modelProp] instanceof Record) {
+                values[modelProp] = schema[modelProp];
+            }
+
+            continue;
+        }
+
         // check if the value needs to be parsed before adding
         if ({}.hasOwnProperty.call(formatFuncs, modelProp)) {
             // it needs to be parsed
@@ -66,7 +80,7 @@ export default class EnforcedModel {
             if (Object.keys(apiMapping).length > 0) {
                 // remap API keys to the model's internal properties as necessary (other keys will
                 // remain the same)
-                inbound = remapKeys(data);
+                inbound = remapKeys(apiMapping, data);
             }
 
             const values = formatData(schema, inbound, formatFuncs);

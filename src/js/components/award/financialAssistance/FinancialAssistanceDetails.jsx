@@ -91,7 +91,7 @@ export default class FinancialAssistanceDetails extends React.Component {
         }
         let awardType = '';
         if (award.award_type) {
-            awardType = capitalize(SummaryPageHelper.awardType(award.award_type));
+            awardType = capitalize(award.category);
         }
 
         // CFDA Data
