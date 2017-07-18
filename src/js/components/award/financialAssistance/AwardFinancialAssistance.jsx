@@ -22,7 +22,6 @@ export default class AwardFinancialAssistance extends React.Component {
                     showPotential={false}
                     typeString={this.props.selectedAward.category} />
                 <FinancialAssistanceDetails
-                    {...this.props}
                     selectedAward={this.props.selectedAward}
                     seeAdditional={this.props.seeAdditional} />
             </div>

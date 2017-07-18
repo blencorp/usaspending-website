@@ -6,26 +6,28 @@
 import React from 'react';
 
 const propTypes = {
-    recipient: React.PropTypes.object,
+    location: React.PropTypes.object,
     type: React.PropTypes.string
 };
 
 export default class RecipientAddress extends React.Component {
 
     render() {
-        const recipient = this.props.recipient;
-        const city = recipient.recipient_city;
-        const stateProvince = recipient.recipient_state_province;
+        const city = this.props.location.city_name;
+        let stateProvince = this.props.location.state_code;
+        if (this.props.location.foreign_province) {
+            stateProvince = this.props.location.foreign_province;
+        }
         let cityState = null;
 
         let country = null;
         let district = null;
 
         const street = [];
-        const streetFields = ['recipient_address_line1', 'recipient_address_line2', 'recipient_address_line3'];
+        const streetFields = ['address_line1', 'address_line2', 'address_line3'];
         streetFields.forEach((key) => {
-            const item = recipient[key];
-            if (recipient[key] && recipient[key] !== '') {
+            const item = this.props.location[key];
+            if (this.props.location[key] && this.props.location[key] !== '') {
                 const lineItem = (
                     <span key={key}>{item}<br /></span>
                 );
@@ -33,11 +35,11 @@ export default class RecipientAddress extends React.Component {
                 street.push(lineItem);
             }
         });
-        if (recipient.recipient_state_code && recipient.recipient_congressional_district) {
+        if (this.props.location.state_code && this.props.location.congressional_code) {
             district = (
                 <div className="item-value">
-                    Congressional District: {recipient.recipient_state_code}-
-                    {recipient.recipient_congressional_district}
+                    Congressional District: {this.props.location.state_code}-
+                    {this.props.location.congressional_code}
                 </div>);
         }
         if (city && stateProvince) {
@@ -50,8 +52,8 @@ export default class RecipientAddress extends React.Component {
             cityState = stateProvince;
         }
 
-        if (recipient.recipient_country_code !== "USA" && recipient.recipient_country !== null) {
-            country = recipient.recipient_country;
+        if (this.props.location.country_code !== "USA" && this.props.location.country_name !== null) {
+            country = this.props.location.country_name;
             if (city !== null) {
                 cityState = `${city},`;
             }
@@ -66,7 +68,7 @@ export default class RecipientAddress extends React.Component {
                     {street}
                 </div>
                 <div className="item-value">
-                    {cityState} {country} {recipient.recipient_zip_postal}
+                    {cityState} {country} {this.props.location.zip}
                 </div>
                 {district}
             </li>

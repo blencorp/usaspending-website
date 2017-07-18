@@ -62,8 +62,9 @@ export default class FinancialAssistanceDetails extends React.Component {
         // Location
         let popPlace = "Not Available";
         let cityState = null;
-        const city = award.pop_city;
-        const stateProvince = award.pop_state_province;
+        const pop = award.place_of_performance;
+        const city = pop.city_name;
+        const stateProvince = pop.state_code;
         if (city && stateProvince) {
             cityState = `${city}, ${stateProvince}`;
         }
@@ -73,16 +74,17 @@ export default class FinancialAssistanceDetails extends React.Component {
         else if (stateProvince) {
             cityState = stateProvince;
         }
-        if (award.pop_country_code === 'USA') {
-            popPlace = `${cityState} ${award.pop_zip}`;
-            if (award.pop_state_code && award.pop_congressional_district) {
+        if (pop.country_code === 'USA') {
+            popPlace = `${cityState} ${pop.zip}`;
+            if (pop.state_code && pop.congressional_code) {
                 popPlace +=
-            `\nCongressional District: ${award.pop_state_code}-${award.pop_congressional_district}`;
+            `\nCongressional District: ${pop.state_code}-${pop.congressional_code}`;
             }
         }
-        else if (award.pop_country_code !== 'USA') {
-            popPlace = `${award.pop_country}`;
+        else if (pop.country_code !== 'USA') {
+            popPlace = `${pop.country_name}`;
         }
+
         if (award.description) {
             description = award.description;
         }
@@ -100,18 +102,18 @@ export default class FinancialAssistanceDetails extends React.Component {
 
         if (latestTransaction.assistance_data.cfda) {
             const cfda = latestTransaction.assistance_data.cfda;
-            if (cfda.program_number && cfda.program_title) {
+            if (cfda.program_number !== '' && cfda.program_title !== '') {
                 programName = `${latestTransaction.assistance_data.cfda.program_number} - \
 ${latestTransaction.assistance_data.cfda.program_title}`;
             }
-            else if (cfda.program_number) {
+            else if (cfda.program_number !== '') {
                 programName = cfda.program_number;
             }
-            else if (cfda.program_title) {
+            else if (cfda.program_title !== '') {
                 programName = cfda.program_title;
             }
 
-            if (cfda.objectives) {
+            if (cfda.objectives !== '') {
                 programDescription = cfda.objectives;
             }
         }

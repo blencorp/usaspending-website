@@ -49,14 +49,14 @@ export default class RecipientInfo extends React.Component {
         let businessType = "Not Available";
         const isContract = includes(awardTypeGroups.contracts, this.props.recipient.award_type);
 
-        if (this.props.recipient.recipient_parent_duns) {
-            parentDuns = this.props.recipient.recipient_parent_duns;
+        if (this.props.recipient.parent_recipient_unique_id) {
+            parentDuns = this.props.recipient.parent_recipient_unique_id;
         }
-        if (this.props.recipient.recipient_duns) {
-            duns = this.props.recipient.recipient_duns;
+        if (this.props.recipient.recipient_unique_id) {
+            duns = this.props.recipient.recipient_unique_id;
         }
-        if (this.props.recipient.recipient_business_type) {
-            businessType = this.props.recipient.recipient_business_type;
+        if (this.props.recipient.business_types_description) {
+            businessType = this.props.recipient.business_types_description;
         }
         let parentDunsSnippet = (
             <InfoSnippet
@@ -70,7 +70,7 @@ export default class RecipientInfo extends React.Component {
         let infoSnippets = (
             <ul className="recipient-information">
                 <RecipientAddress
-                    recipient={recipient} />
+                    location={recipient.location} />
                 <InfoSnippet
                     label="DUNS"
                     value={duns} />

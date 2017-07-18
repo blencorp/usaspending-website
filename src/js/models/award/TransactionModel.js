@@ -9,6 +9,8 @@ import AgencyModel from './AgencyModel';
 import RecipientModel from './RecipientModel';
 import LocationModel from './LocationModel';
 
+import TransactionAssistanceModel from './TransactionAssistanceModel';
+
 const defaultValues = {
     id: 0,
     type: '',
@@ -29,7 +31,8 @@ const defaultValues = {
     awarding_agency: new AgencyModel(),
     funding_agency: new AgencyModel(),
     recipient: new RecipientModel(),
-    place_of_performance: new LocationModel()
+    place_of_performance: new LocationModel(),
+    assistance_data: new TransactionAssistanceModel()
     // contract_data: {
     //     transaction: 2693,
     //     data_source: "DBR",
@@ -149,7 +152,8 @@ const formatFuncs = {
     awarding_agency: (raw) => new AgencyModel(raw),
     funding_agency: (raw) => new AgencyModel(raw),
     recipient: (raw) => new RecipientModel(raw),
-    location: (raw) => new LocationModel(raw)
+    location: (raw) => new LocationModel(raw),
+    assistance_data: (raw) => new TransactionAssistanceModel(raw)
 };
 
 export default class TransactionModel extends EnforcedModel {
