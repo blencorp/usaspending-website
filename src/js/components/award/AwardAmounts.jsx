@@ -50,7 +50,8 @@ export default class AwardAmounts extends React.Component {
     generateNarrative() {
         const recipient = this.props.selectedAward.recipient.recipient_name.toLowerCase();
 
-        const ceiling = this.props.selectedAward.potential_total_value_of_award;
+        const ceiling =
+            MoneyFormatter.formatMoney(this.props.selectedAward.potential_total_value_of_award);
         const current = MoneyFormatter.formatMoney(this.props.selectedAward.total_obligation);
         const unformattedCeiling =
         accounting.unformat(this.props.selectedAward.potential_total_value_of_award);

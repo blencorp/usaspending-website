@@ -4,13 +4,13 @@
  **/
 
 import React from 'react';
-import { toLower, includes } from 'lodash';
-import { awardTypeGroups } from 'dataMapping/search/awardType';
+import { toLower } from 'lodash';
 import InfoSnippet from './InfoSnippet';
 import RecipientAddress from './RecipientAddress';
 
 
 const propTypes = {
+    category: React.PropTypes.string,
     recipient: React.PropTypes.object
 };
 
@@ -47,7 +47,7 @@ export default class RecipientInfo extends React.Component {
         let duns = "Not Available";
         let parentDuns = "Not Available";
         let businessType = "Not Available";
-        const isContract = includes(awardTypeGroups.contracts, this.props.recipient.award_type);
+        const isContract = this.props.category === 'contract';
 
         if (this.props.recipient.parent_recipient_unique_id) {
             parentDuns = this.props.recipient.parent_recipient_unique_id;

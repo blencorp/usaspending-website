@@ -5,9 +5,7 @@
 
 import React from 'react';
 import moment from 'moment';
-import { startCase, toLower, includes } from 'lodash';
-import * as SummaryPageHelper from 'helpers/summaryPageHelper';
-import { awardTypeGroups } from 'dataMapping/search/awardType';
+import { startCase } from 'lodash';
 
 import InfoSnippet from './InfoSnippet';
 import MoreHeaderOptions from './MoreHeaderOptions';
@@ -54,7 +52,7 @@ export default class SummaryBar extends React.Component {
         else {
             progress = "In Progress";
         }
-        if (includes(awardTypeGroups.contracts, award.award_type)) {
+        if (award.category === 'contract') {
             if (award.latest_transaction.contract_data.parent_award_id) {
                 parentId = award.latest_transaction.contract_data.parent_award_id;
             }
