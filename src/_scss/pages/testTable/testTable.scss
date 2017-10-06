@@ -1,0 +1,8 @@
+@import "all";
+@import "lib/ibTable2/ibTable";
+
+.test-table-page {
+    .content-header-cell {
+        background-color: $color-gray-lighter;
+    }
+}

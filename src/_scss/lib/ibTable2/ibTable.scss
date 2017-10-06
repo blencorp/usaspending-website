@@ -1,0 +1,44 @@
+.ib-table-wrapper {
+    position: relative;
+
+    .ib-table-scroller {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .ib-table-content {
+        position: relative;
+        overflow: hidden;
+
+        .ib-table-header {
+            @include display(flex);
+            @include flex-direction(row);
+            @include justify-content(flex-start);
+            @include align-items(flex-start);
+            position: relative;
+
+            .ib-table-header-cell {
+                @include flex(0 0 auto);
+            }
+        }
+
+        .ib-table-body {
+            position: relative;
+
+            .ib-table-body-row {
+                position: absolute;
+
+                .ib-table-body-row-content {
+                    position: relative;
+
+                    .ib-table-body-cell {
+                        position: absolute;
+                    }
+
+                }
+
+            }
+        }
+    }
+}

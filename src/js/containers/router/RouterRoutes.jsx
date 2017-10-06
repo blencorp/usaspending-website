@@ -156,6 +156,15 @@ const routes = {
             }
         },
         {
+            path: '/test',
+            parent: '/test',
+            component: (cb) => {
+                require.ensure([], (require) => {
+                    cb(require('components/testTable/TestTablePage').default);
+                });
+            }
+        },
+        {
             path: '/agency',
             parent: '/agency',
             component: (cb) => {
