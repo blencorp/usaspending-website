@@ -8,18 +8,24 @@ import React from 'react';
 export default class TableBody extends React.Component {
     render() {
         const style = {
-            width: this.props.width,
-            height: this.props.height
+            width: this.props.contentWidth,
+            height: this.props.contentHeight,
+            top: this.props.headerHeight
         };
 
         const rows = [];
 
         let cellTop = 0;
-        
-        for (let rowIndex = 0; rowIndex < this.props.rowCount; rowIndex++) {
+        const topRow = Math.max(0, Math.floor(this.props.visibleX / this.props.rowHeight) - 1);
 
+        const bottomRow = Math.min(
+                Math.ceil(this.props.visibleHeight / this.props.rowHeight) + topRow + 1,
+                this.props.rowCount - 1
+            );
+
+        for (let rowIndex = topRow; rowIndex <= bottomRow; rowIndex++) {
             const rowStyle = {
-                width: this.props.width,
+                width: this.props.contentWidth,
                 height: this.props.rowHeight,
                 top: cellTop,
                 left: 0

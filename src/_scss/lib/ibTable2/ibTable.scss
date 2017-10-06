@@ -5,6 +5,10 @@
         position: absolute;
         top: 0;
         left: 0;
+
+        overflow: scroll;
+
+        z-index: 2;
     }
 
     .ib-table-content {
@@ -12,14 +16,15 @@
         overflow: hidden;
 
         .ib-table-header {
-            @include display(flex);
-            @include flex-direction(row);
-            @include justify-content(flex-start);
-            @include align-items(flex-start);
-            position: relative;
+            position: absolute;
 
-            .ib-table-header-cell {
-                @include flex(0 0 auto);
+            .ib-table-header-content {
+                position: relative;
+
+                .ib-table-header-cell {
+                    position: absolute;
+                    top: 0;
+                }
             }
         }
 

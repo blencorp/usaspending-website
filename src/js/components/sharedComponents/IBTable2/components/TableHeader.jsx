@@ -7,11 +7,15 @@ import React from 'react';
 
 export default class TableHeader extends React.Component {
     render() {
+        let left = 0;
         const columns = this.props.columns.map((column, i) => {
             const style = {
+                left,
                 width: column.width,
                 height: this.props.height
             };
+
+            left += column.width;
             return (
                 <div
                     key={column.id}
@@ -31,7 +35,9 @@ export default class TableHeader extends React.Component {
             <div
                 className="ib-table-header"
                 style={style}>
-                {columns}
+                <div className="ib-table-header-content">
+                    {columns}
+                </div>
             </div>
         );
     }

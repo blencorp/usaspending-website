@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import VirtualScroller from './VirtualScroller';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 
@@ -17,6 +18,7 @@ export default class Table extends React.Component {
             bodyHeight: 0
         };
     }
+
     componentWillMount() {
         this.prepareTable(this.props);
     }
@@ -29,9 +31,14 @@ export default class Table extends React.Component {
         // calculate the width and height of the full content
         let contentWidth = 0;
         const contentHeight = props.headerHeight + (props.rowCount * props.rowHeight);
+
+        const colXPos = [];
+
         props.columns.forEach((col) => {
+            colXPos.push(contentWidth);
             contentWidth += col.width;
         });
+
 
         this.setState({
             contentWidth,
@@ -48,12 +55,11 @@ export default class Table extends React.Component {
 
         return (
             <div className="ib-table-wrapper">
-                <div
-                    className="ib-table-scroller"
-                    style={wrapperStyle}
-                    ref={(div) => {
-                        this.scroller = div;
-                    }} />
+                <VirtualScroller
+                    visibleHeight={this.props.visibleHeight}
+                    visibleWidth={this.props.visibleWidth}
+                    contentHeight={this.state.contentHeight}
+                    contentWidth={this.state.contentWidth} />
                 <div
                     style={wrapperStyle}
                     className="ib-table-content">
@@ -66,8 +72,13 @@ export default class Table extends React.Component {
                         columns={this.props.columns}
                         rowCount={this.props.rowCount}
                         rowHeight={this.props.rowHeight}
-                        height={this.state.bodyHeight}
-                        width={this.state.contentWidth}
+                        headerHeight={this.props.headerHeight}
+                        contentHeight={this.state.bodyHeight}
+                        contentWidth={this.state.contentWidth}
+                        visibleHeight={this.props.visibleHeight}
+                        visibleWidth={this.props.visibleWidth}
+                        visibleX={0}
+                        visibleY={0}
                         renderBodyCell={this.props.renderBodyCell} />
                 </div>
             </div>
