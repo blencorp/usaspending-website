@@ -28,7 +28,8 @@ export default class TableHeader extends React.Component {
 
         const style = {
             width: this.props.width,
-            height: this.props.height
+            height: this.props.height,
+            transform: `translate(${-1 * this.props.visibleX}px, 0px)`
         };
 
         return (

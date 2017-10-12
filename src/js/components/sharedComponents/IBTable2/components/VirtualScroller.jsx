@@ -6,6 +6,26 @@
 import React from 'react';
 
 export default class VirtualScroller extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.lastUpdate = null;
+
+        this.onScroll = this.onScroll.bind(this);
+    }
+
+    onScroll() {
+        if (this.lastUpdate) {
+            cancelAnimationFrame(this.lastUpdate);
+        }
+        this.lastUpdate = requestAnimationFrame(() => {
+            const scrollY = this.scroller.scrollTop;
+            const scrollX = this.scroller.scrollLeft;
+
+            this.props.tableScrolled(scrollX, scrollY);
+        });
+    }
+
     render() {
         const outerStyle = {
             width: this.props.visibleWidth,
@@ -21,6 +41,7 @@ export default class VirtualScroller extends React.Component {
             <div
                 className="ib-table-scroller"
                 style={outerStyle}
+                onScroll={this.onScroll}
                 ref={(div) => {
                     this.scroller = div;
                 }}>

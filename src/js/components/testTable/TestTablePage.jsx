@@ -21,19 +21,29 @@ export default class TestTablePage extends React.Component {
         this.state = {
             columns: [],
             columnNames: [],
-            data: []
+            data: [],
+            width: 0
         };
 
         this.renderHeaderCell = this.renderHeaderCell.bind(this);
         this.renderBodyCell = this.renderBodyCell.bind(this);
     }
+    componentDidMount() {
+        this.measureTable();
+    }
 
-    componentWillMount() {
-        this.buildTable();
+    measureTable() {
+        const width = this.measureDiv.offsetWidth;
+
+        this.setState({
+            width
+        }, () => {
+            this.buildTable();
+        });
     }
 
     buildTable() {
-        const widths = [30, 400, 0, 300, 20];
+        const widths = [30, 20, 10, 20, 5];
 
         const columns = [];
         const columnNames = [];
@@ -80,14 +90,23 @@ export default class TestTablePage extends React.Component {
     }
 
     render() {
+        const style = {
+            width: '100%'
+        };
+
         return (
             <div className="test-table-page">
                 <main id="main-content">
                     <div className="page-content">
                         <div className="page-wrapper">
+                            <div
+                                style={style}
+                                ref={(div) => {
+                                    this.measureDiv = div;
+                                }} />
                             <div>
                                 <IBTable
-                                    visibleWidth={500}
+                                    visibleWidth={this.state.width}
                                     visibleHeight={700}
                                     headerHeight={60}
                                     rowHeight={60}

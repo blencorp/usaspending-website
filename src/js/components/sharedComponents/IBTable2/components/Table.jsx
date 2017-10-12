@@ -15,8 +15,13 @@ export default class Table extends React.Component {
         this.state = {
             contentWidth: 0,
             contentHeight: 0,
-            bodyHeight: 0
+            bodyHeight: 0,
+            scrollX: 0,
+            scrollY: 0,
+            columns: []
         };
+
+        this.tableScrolled = this.tableScrolled.bind(this);
     }
 
     componentWillMount() {
@@ -32,19 +37,31 @@ export default class Table extends React.Component {
         let contentWidth = 0;
         const contentHeight = props.headerHeight + (props.rowCount * props.rowHeight);
 
-        const colXPos = [];
-
-        props.columns.forEach((col) => {
-            colXPos.push(contentWidth);
+        // determine which 50px width increment the column fits in
+        const columns = [];
+        props.columns.forEach((col, index) => {
+            columns.push(Object.assign({}, col, {
+                left: contentWidth
+            }));
             contentWidth += col.width;
         });
 
 
         this.setState({
+            columns,
             contentWidth,
             contentHeight,
             bodyHeight: props.rowCount * props.rowHeight
         });
+    }
+
+    tableScrolled(x, y) {
+        // window.requestAnimationFrame(() => {
+            this.setState({
+                scrollX: x,
+                scrollY: y
+            });
+        // });
     }
 
     render() {
@@ -59,17 +76,19 @@ export default class Table extends React.Component {
                     visibleHeight={this.props.visibleHeight}
                     visibleWidth={this.props.visibleWidth}
                     contentHeight={this.state.contentHeight}
-                    contentWidth={this.state.contentWidth} />
+                    contentWidth={this.state.contentWidth}
+                    tableScrolled={this.tableScrolled} />
                 <div
                     style={wrapperStyle}
                     className="ib-table-content">
                     <TableHeader
-                        columns={this.props.columns}
+                        columns={this.state.columns}
                         height={this.props.headerHeight}
                         width={this.state.contentWidth}
+                        visibleX={this.state.scrollX}
                         renderHeaderCell={this.props.renderHeaderCell} />
                     <TableBody
-                        columns={this.props.columns}
+                        columns={this.state.columns}
                         rowCount={this.props.rowCount}
                         rowHeight={this.props.rowHeight}
                         headerHeight={this.props.headerHeight}
@@ -77,8 +96,8 @@ export default class Table extends React.Component {
                         contentWidth={this.state.contentWidth}
                         visibleHeight={this.props.visibleHeight}
                         visibleWidth={this.props.visibleWidth}
-                        visibleX={0}
-                        visibleY={0}
+                        visibleX={this.state.scrollX}
+                        visibleY={this.state.scrollY}
                         renderBodyCell={this.props.renderBodyCell} />
                 </div>
             </div>

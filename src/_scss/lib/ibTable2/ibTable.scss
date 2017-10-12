@@ -8,7 +8,7 @@
 
         overflow: scroll;
 
-        z-index: 2;
+        z-index: 3;
     }
 
     .ib-table-content {
@@ -17,6 +17,7 @@
 
         .ib-table-header {
             position: absolute;
+            z-index: 2;
 
             .ib-table-header-content {
                 position: relative;
