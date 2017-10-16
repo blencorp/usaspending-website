@@ -4,6 +4,9 @@
  */
 
 import React from 'react';
+
+import { List } from 'immutable';
+
 import VirtualScroller from './VirtualScroller';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
@@ -18,7 +21,7 @@ export default class Table extends React.Component {
             bodyHeight: 0,
             scrollX: 0,
             scrollY: 0,
-            columns: []
+            columns: new List()
         };
 
         this.tableScrolled = this.tableScrolled.bind(this);
@@ -37,10 +40,10 @@ export default class Table extends React.Component {
         let contentWidth = 0;
         const contentHeight = props.headerHeight + (props.rowCount * props.rowHeight);
 
-        // determine which 50px width increment the column fits in
         const columns = [];
-        props.columns.forEach((col, index) => {
+        props.columns.forEach((col) => {
             columns.push(Object.assign({}, col, {
+                // add the left position to the column object for future reference
                 left: contentWidth
             }));
             contentWidth += col.width;
@@ -48,10 +51,10 @@ export default class Table extends React.Component {
 
 
         this.setState({
-            columns,
             contentWidth,
             contentHeight,
-            bodyHeight: props.rowCount * props.rowHeight
+            bodyHeight: props.rowCount * props.rowHeight,
+            columns: new List(columns)
         });
     }
 

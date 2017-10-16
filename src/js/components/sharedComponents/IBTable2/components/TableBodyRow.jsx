@@ -7,7 +7,7 @@ import React from 'react';
 
 export default class TableBodyRow extends React.PureComponent {
 
-    renderCell(column, index) {
+    renderCell(column) {
         const cellStyle = {
             width: column.width,
             height: this.props.rowHeight,
@@ -19,7 +19,7 @@ export default class TableBodyRow extends React.PureComponent {
                 key={`${this.props.rowIndex}-${column.id}`}
                 style={cellStyle}
                 className="ib-table-body-cell">
-                {this.props.renderBodyCell(this.props.rowIndex, index)}
+                {this.props.renderBodyCell(this.props.rowIndex, column.index)}
             </div>
         );
         return cell;
@@ -27,19 +27,11 @@ export default class TableBodyRow extends React.PureComponent {
 
     render() {
         const cells = [];
+        // console.log(`PRINT ROW ${this.props.rowIndex}`);
 
-        let left = 0;
-
-        const leftEdge = this.props.visibleX;
-        const rightEdge = this.props.visibleX + this.props.visibleWidth;
-
-        this.props.columns.forEach((column, index) => {
-            if (left + column.width >= leftEdge
-                && (left <= rightEdge)) {
-                const cell = this.renderCell(column, index);
-                cells.push(cell);
-            }
-            left += column.width;
+        this.props.columns.forEach((column) => {
+            const cell = this.renderCell(column);
+            cells.push(cell);
         });
 
         const style = {

@@ -53,6 +53,7 @@ export default class TestTablePage extends React.Component {
             const widthIndex = i % widths.length;
             const column = {
                 id: `col-${i}`,
+                index: i,
                 width: measureTableHeader(title) + widths[widthIndex]
             };
 
