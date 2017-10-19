@@ -12,11 +12,21 @@ module.exports = merge(common, {
             'process.env.NODE_ENV': JSON.stringify('development') // indicate to libraries that this is in prod mode (which may affect their behavior for debugging)
         })
     ],
-    devtool: 'eval',
+    devtool: 'cheap-module-source-map',
     devServer: {
         contentBase: path.resolve(__dirname, 'public'),
         host: '0.0.0.0', // this allows VMs to access the server
         port: 3000,
-        disableHostCheck: true
+        disableHostCheck: true,
+        watchOptions: {
+            ignored: /node_modules/
+        },
+        hot: true,
+        inline: true,
+        stats: {
+            colors: true,
+            assets: false,
+            chunks: false
+        }
     }
 });

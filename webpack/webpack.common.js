@@ -14,8 +14,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '../public'),
         publicPath: '',
-        filename: 'js/[name].[chunkhash].js',
-        chunkFilename: 'js/bundle.[chunkhash].js'
+        filename: 'js/[name].js',
+        sourceMapFilename: '[file].map'
     },
     resolve: {
         extensions: ['.js', '.jsx'],
@@ -23,6 +23,12 @@ module.exports = {
             path.resolve(__dirname, '../src/js'),
             path.resolve(__dirname, '../node_modules')
         ]
+    },
+    performance: {
+        // Turn off performance hints during development because we don't do any
+        // splitting or minification in interest of speed. These warnings become
+        // cumbersome.
+        hints: false
     },
     module: {
         noParse: /(mapbox-gl)\.js$/,
@@ -45,31 +51,13 @@ module.exports = {
                     use: [
                         {
                             loader: 'css-loader',
-                            options: {
-                                sourceMap: () => {
-                                    if (process.env.NODE_ENV === 'production') {
-                                        return false;
-                                    }
-                                    return true;
-                                },
-                                minimize: () => {
-                                    if (process.env.NODE_ENV === 'production') {
-                                        return true;
-                                    }
-                                    return false;
-                                }
+                            query: {
+                                importLoaders: 1
                             }
-                        },
-                        {
+                        }, {
                             loader: 'sass-loader',
                             options: {
-                                includePaths: ['./src/_scss'],
-                                sourceMap: () => {
-                                    if (process.env.NODE_ENV === 'production') {
-                                        return false;
-                                    }
-                                    return true;
-                                }
+                                includePaths: ['./src/_scss']
                             }
                         }
                     ]
@@ -90,8 +78,7 @@ module.exports = {
         }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new ExtractTextPlugin({
-            filename: 'css/style.[hash].css',
-            allChunks: true
+            filename: 'css/style.[hash].css'
         }),
         new GitHashPlugin(),
         new HtmlWebpackPlugin({ // copy the index.html file out of /src into /public and update with the current JS files
@@ -99,8 +86,6 @@ module.exports = {
             template: path.resolve(__dirname, '../src/index.html'),
             filename: 'index.html'
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor'
-        })
+        new webpack.HotModuleReplacementPlugin()
     ]
 };
