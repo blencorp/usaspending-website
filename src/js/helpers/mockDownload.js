@@ -1,5 +1,5 @@
 export const mockCount = {
-    transaction_rows: 120
+    transaction_rows_gt_limit: false
 };
 
 export const mockStatus = {
