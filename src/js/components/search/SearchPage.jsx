@@ -51,6 +51,7 @@ export default class SearchPage extends React.Component {
     componentDidMount() {
         // watch the page for scroll and resize events
         window.addEventListener('resize', this.handleWindowResize);
+
         this.handleWindowResize();
     }
 
